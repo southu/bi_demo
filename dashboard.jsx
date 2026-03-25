@@ -6,7 +6,7 @@ import {
 } from "recharts";
 import {
   DollarSign, Package, Store, Zap, Flame, ChevronDown,
-  AlertTriangle, Leaf, Tag, X, SearchX,
+  AlertTriangle, Leaf, Tag, X, SearchX, ArrowLeft,
 } from "lucide-react";
 
 // ============ CONSTANTS ============
@@ -390,7 +390,7 @@ const INSIGHTS = [
 
 // ============ MAIN DASHBOARD ============
 
-export default function Dashboard() {
+export default function Dashboard({ onBack }) {
   const [filters, setFilters] = useState({ ...DEFAULT_FILTERS });
   const [isLoading, setIsLoading] = useState(false);
 
@@ -435,6 +435,11 @@ export default function Dashboard() {
       <nav className="sticky top-0 z-50 bg-slate-900/60 backdrop-blur-2xl border-b border-white/[0.06]">
         <div className="max-w-[1600px] mx-auto px-6 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
+            {onBack && (
+              <button onClick={onBack} className="w-9 h-9 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] flex items-center justify-center transition-colors" title="Back to Hub">
+                <ArrowLeft size={16} className="text-slate-400" />
+              </button>
+            )}
             <div className="w-9 h-9 rounded-xl bg-amber-500/15 flex items-center justify-center"><Flame size={18} className="text-amber-400" /></div>
             <div>
               <span className="text-base font-bold text-white tracking-tight">Revenue Command Center</span>
