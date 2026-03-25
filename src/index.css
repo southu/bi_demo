@@ -1,5 +1,103 @@
 @import "tailwindcss";
 
+/* ===== Light / Dark Theme Tokens ===== */
+
+:root {
+  --surface: #F8FAFC;
+  --card: #FFFFFF;
+  --card-border: #E2E8F0;
+  --text-primary: #0F172A;
+  --text-secondary: #64748B;
+  --text-tertiary: #94A3B8;
+  --nav-bg: rgba(255, 255, 255, 0.8);
+  --nav-border: rgba(226, 232, 240, 0.6);
+  --input-bg: #FFFFFF;
+  --input-border: #CBD5E1;
+  --tooltip-bg: #FFFFFF;
+  --tooltip-border: #E2E8F0;
+  --skeleton: #F1F5F9;
+  --skeleton-soft: #E2E8F0;
+  --filter-active-bg: rgba(6, 182, 212, 0.1);
+  --filter-active-text: #0E7490;
+  --filter-inactive-bg: #F1F5F9;
+  --filter-inactive-text: #64748B;
+  --filter-hover-bg: #E2E8F0;
+  --filter-hover-text: #334155;
+  --pill-bg: #FEF3C7;
+  --pill-text: #92400E;
+  --grid-stroke: #E2E8F0;
+  --progress-track: #E2E8F0;
+  --divider: #E2E8F0;
+  --legend-dimmed-text: #94A3B8;
+  --legend-hover-bg: rgba(0, 0, 0, 0.03);
+  --legend-active-bg: rgba(0, 0, 0, 0.06);
+  --legend-active-ring: rgba(0, 0, 0, 0.08);
+  --status-healthy-bg: #ECFDF5;
+  --status-healthy-border: #A7F3D0;
+  --status-healthy-text: #059669;
+  --status-caution-bg: #FFFBEB;
+  --status-caution-border: #FDE68A;
+  --status-caution-text: #D97706;
+  --status-critical-bg: #FFF1F2;
+  --status-critical-border: #FECDD3;
+  --status-critical-text: #E11D48;
+  --status-neutral-bg: rgba(100, 116, 139, 0.08);
+  --status-neutral-border: rgba(100, 116, 139, 0.2);
+  --status-neutral-text: #64748B;
+  --status-label: #334155;
+  --toggle-bg: transparent;
+  --toggle-hover-bg: #F1F5F9;
+  --toggle-text: #64748B;
+}
+
+.dark {
+  --surface: #0F172A;
+  --card: rgba(30, 41, 59, 0.7);
+  --card-border: rgba(255, 255, 255, 0.1);
+  --text-primary: #FFFFFF;
+  --text-secondary: #94A3B8;
+  --text-tertiary: #64748B;
+  --nav-bg: rgba(15, 23, 42, 0.6);
+  --nav-border: rgba(255, 255, 255, 0.06);
+  --input-bg: rgba(255, 255, 255, 0.05);
+  --input-border: rgba(255, 255, 255, 0.08);
+  --tooltip-bg: rgba(30, 41, 59, 0.95);
+  --tooltip-border: rgba(255, 255, 255, 0.1);
+  --skeleton: rgba(255, 255, 255, 0.06);
+  --skeleton-soft: rgba(255, 255, 255, 0.04);
+  --filter-active-bg: rgba(6, 182, 212, 0.15);
+  --filter-active-text: #22D3EE;
+  --filter-inactive-bg: rgba(255, 255, 255, 0.05);
+  --filter-inactive-text: rgba(255, 255, 255, 0.4);
+  --filter-hover-bg: rgba(255, 255, 255, 0.08);
+  --filter-hover-text: rgba(255, 255, 255, 0.6);
+  --pill-bg: rgba(245, 158, 11, 0.15);
+  --pill-text: #FBBF24;
+  --grid-stroke: rgba(255, 255, 255, 0.06);
+  --progress-track: rgba(255, 255, 255, 0.06);
+  --divider: rgba(51, 65, 85, 0.4);
+  --legend-dimmed-text: #475569;
+  --legend-hover-bg: rgba(255, 255, 255, 0.03);
+  --legend-active-bg: rgba(255, 255, 255, 0.06);
+  --legend-active-ring: rgba(255, 255, 255, 0.1);
+  --status-healthy-bg: rgba(16, 185, 129, 0.1);
+  --status-healthy-border: rgba(16, 185, 129, 0.2);
+  --status-healthy-text: #34D399;
+  --status-caution-bg: rgba(245, 158, 11, 0.1);
+  --status-caution-border: rgba(245, 158, 11, 0.2);
+  --status-caution-text: #FBBF24;
+  --status-critical-bg: rgba(244, 63, 94, 0.1);
+  --status-critical-border: rgba(244, 63, 94, 0.2);
+  --status-critical-text: #FB7185;
+  --status-neutral-bg: rgba(100, 116, 139, 0.1);
+  --status-neutral-border: rgba(100, 116, 139, 0.2);
+  --status-neutral-text: #94A3B8;
+  --status-label: #FFFFFF;
+  --toggle-bg: transparent;
+  --toggle-hover-bg: rgba(255, 255, 255, 0.06);
+  --toggle-text: #94A3B8;
+}
+
 @theme {
   /* ===== Spacing Scale (8px grid) ===== */
   --spacing-xs: 4px;

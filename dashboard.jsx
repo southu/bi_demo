@@ -8,6 +8,7 @@ import {
 import {
   Truck, ShoppingCart, AlertTriangle, Activity, Flame,
   ChevronDown, X, SearchX, Leaf, Tag, Package, Shield,
+  Sun, Moon,
 } from "lucide-react";
 
 // ============ CONSTANTS ============
@@ -263,8 +264,8 @@ const Pulse = ({ color = "bg-emerald-500" }) => (
 const DarkTooltip = ({ active, payload, label, formatter }) => {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-slate-800/95 backdrop-blur-md border border-white/10 rounded-lg px-4 py-3 shadow-2xl">
-      <p className="text-xs uppercase tracking-wider text-white/50 mb-2">{label}</p>
+    <div className="bg-[var(--tooltip-bg)] backdrop-blur-md border border-[var(--tooltip-border)] rounded-lg px-4 py-3 shadow-2xl">
+      <p className="text-xs uppercase tracking-wider text-[var(--text-tertiary)] mb-2">{label}</p>
       {payload.map((e, i) => (
         <p key={i} className="text-sm font-semibold" style={{ color: e.color || e.stroke }}>
           {e.name}: {formatter ? formatter(e.value, e.name) : e.value.toLocaleString()}
@@ -275,43 +276,43 @@ const DarkTooltip = ({ active, payload, label, formatter }) => {
 };
 
 const GlassCard = ({ children, className = "" }) => (
-  <div className={`bg-[rgba(30,41,59,0.7)] backdrop-blur-md border border-white/10 rounded-lg p-6 ${className}`}>{children}</div>
+  <div className={`bg-[var(--card)] backdrop-blur-md border border-[var(--card-border)] rounded-lg p-6 ${className}`}>{children}</div>
 );
 
 const SectionTitle = ({ children, subtitle }) => (
-  <div className="mb-4"><h2 className="text-xl font-semibold text-white">{children}</h2>{subtitle && <p className="text-xs text-slate-400 mt-1">{subtitle}</p>}</div>
+  <div className="mb-4"><h2 className="text-xl font-semibold text-[var(--text-primary)]">{children}</h2>{subtitle && <p className="text-xs text-[var(--text-secondary)] mt-1">{subtitle}</p>}</div>
 );
 
 const ChartMeta = ({ source, refreshed }) => (
-  <div className="flex items-center gap-3 mt-4 pt-3 border-t border-slate-700/40">
-    <span className="text-xs text-slate-400">Source: {source}</span>
-    <span className="text-xs text-slate-600">|</span>
-    <span className="text-xs text-slate-400">Last Refreshed: <span className="text-amber-400/80">{refreshed}</span></span>
+  <div className="flex items-center gap-3 mt-4 pt-3 border-t border-[var(--divider)]">
+    <span className="text-xs text-[var(--text-secondary)]">Source: {source}</span>
+    <span className="text-xs text-[var(--text-tertiary)]">|</span>
+    <span className="text-xs text-[var(--text-secondary)]">Last Refreshed: <span className="text-amber-400/80">{refreshed}</span></span>
   </div>
 );
 
 const FilterDropdown = ({ label, options, value, onChange }) => (
   <div>
-    <div className="text-xs uppercase tracking-widest text-slate-400 mb-2 font-medium">{label}</div>
+    <div className="text-xs uppercase tracking-widest text-[var(--text-secondary)] mb-2 font-medium">{label}</div>
     <div className="relative">
-      <select value={value} onChange={(e) => onChange(e.target.value)} className="bg-white/[0.05] border border-white/[0.08] rounded-md text-sm text-slate-300 pl-3 pr-8 py-2 appearance-none cursor-pointer hover:border-white/20 transition-colors focus:outline-none focus:ring-1 focus:ring-cyan-500/30">
+      <select value={value} onChange={(e) => onChange(e.target.value)} className="bg-[var(--input-bg)] border border-[var(--input-border)] rounded-md text-sm text-[var(--text-secondary)] pl-3 pr-8 py-2 appearance-none cursor-pointer hover:border-[var(--filter-hover-text)] transition-colors focus:outline-none focus:ring-1 focus:ring-cyan-500/30">
         {options.map((o) => <option key={o} value={o}>{o}</option>)}
       </select>
-      <ChevronDown size={14} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-white/30 pointer-events-none" />
+      <ChevronDown size={14} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[var(--text-tertiary)] pointer-events-none" />
     </div>
   </div>
 );
 
 const Skeleton = ({ height = 300, rows = 0 }) => (
   <div className="animate-pulse space-y-3" style={{ minHeight: height }}>
-    <div className="h-4 w-1/3 bg-white/[0.06] rounded" /><div className="h-3 w-1/5 bg-white/[0.04] rounded" />
-    {rows > 0 ? <div className="space-y-2 pt-2">{Array.from({ length: rows }, (_, i) => <div key={i} className="h-10 bg-white/[0.03] rounded-lg" style={{ opacity: 1 - i * 0.12 }} />)}</div> : <div className="flex-1 bg-white/[0.03] rounded-xl" style={{ height: height - 40 }} />}
+    <div className="h-4 w-1/3 bg-[var(--skeleton)] rounded" /><div className="h-3 w-1/5 bg-[var(--skeleton-soft)] rounded" />
+    {rows > 0 ? <div className="space-y-2 pt-2">{Array.from({ length: rows }, (_, i) => <div key={i} className="h-10 bg-[var(--skeleton-soft)] rounded-lg" style={{ opacity: 1 - i * 0.12 }} />)}</div> : <div className="flex-1 bg-[var(--skeleton-soft)] rounded-xl" style={{ height: height - 40 }} />}
   </div>
 );
 
 const EmptyState = ({ filters }) => {
   const active = Object.entries(filters).filter(([k, v]) => v !== "All" && k !== "timeframe").map(([, v]) => v);
-  return (<div className="flex flex-col items-center justify-center py-16 text-center"><div className="w-14 h-14 rounded-lg bg-slate-800/50 flex items-center justify-center mb-4"><SearchX size={24} className="text-slate-600" /></div><p className="text-sm font-medium text-slate-400 mb-1">No matching records</p><p className="text-xs text-slate-600 max-w-[260px]">{active.length > 0 ? `No data for ${active.join(" + ")}.` : "Adjust your filters."}</p></div>);
+  return (<div className="flex flex-col items-center justify-center py-16 text-center"><div className="w-14 h-14 rounded-lg bg-[var(--skeleton)] flex items-center justify-center mb-4"><SearchX size={24} className="text-[var(--text-tertiary)]" /></div><p className="text-sm font-medium text-[var(--text-secondary)] mb-1">No matching records</p><p className="text-xs text-[var(--text-tertiary)] max-w-[260px]">{active.length > 0 ? `No data for ${active.join(" + ")}.` : "Adjust your filters."}</p></div>);
 };
 
 const INSIGHTS = [
@@ -325,6 +326,22 @@ const INSIGHTS = [
 export default function Dashboard() {
   const [filters, setFilters] = useState({ ...DEFAULT_FILTERS });
   const [isLoading, setIsLoading] = useState(false);
+  const [theme, setTheme] = useState(() => {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("theme");
+      if (stored) return stored;
+      return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    return "dark";
+  });
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (theme === "dark") { root.classList.add("dark"); } else { root.classList.remove("dark"); }
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const toggleTheme = useCallback(() => setTheme((t) => (t === "dark" ? "light" : "dark")), []);
 
   const updateFilter = useCallback((key, value) => {
     setFilters((prev) => ({ ...prev, [key]: prev[key] === value && key !== "timeframe" ? "All" : value }));
@@ -338,32 +355,46 @@ export default function Dashboard() {
   const activePills = Object.entries(filters).filter(([k, v]) => v !== "All" && k !== "timeframe").map(([k, v]) => ({ key: k, value: v }));
   const { isEmpty, kpis, pipelineData, categoryTrend, flavorData, scatterData, regionalData, statusSummary } = useOpsData(filters);
 
-  const statusColors = { healthy: { bg: "bg-emerald-500/10", border: "border-emerald-500/20", text: "text-emerald-400", dot: "bg-emerald-500" }, caution: { bg: "bg-amber-500/10", border: "border-amber-500/20", text: "text-amber-400", dot: "bg-amber-500" }, critical: { bg: "bg-rose-500/10", border: "border-rose-500/20", text: "text-rose-400", dot: "bg-rose-500" }, neutral: { bg: "bg-slate-500/10", border: "border-slate-500/20", text: "text-slate-400", dot: "bg-slate-500" } };
+  const statusColors = {
+    healthy: { bg: "bg-[var(--status-healthy-bg)]", border: "border-[var(--status-healthy-border)]", text: "text-[var(--status-healthy-text)]", dot: "bg-emerald-500" },
+    caution: { bg: "bg-[var(--status-caution-bg)]", border: "border-[var(--status-caution-border)]", text: "text-[var(--status-caution-text)]", dot: "bg-amber-500" },
+    critical: { bg: "bg-[var(--status-critical-bg)]", border: "border-[var(--status-critical-border)]", text: "text-[var(--status-critical-text)]", dot: "bg-rose-500" },
+    neutral: { bg: "bg-[var(--status-neutral-bg)]", border: "border-[var(--status-neutral-border)]", text: "text-[var(--status-neutral-text)]", dot: "bg-slate-500" },
+  };
   const sc = statusColors[statusSummary.level];
 
   return (
-    <div className="min-h-screen bg-[#0F172A] text-white overflow-y-auto" style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>
-      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-amber-500/[0.04] rounded-full blur-[120px] pointer-events-none" />
+    <div className="min-h-screen bg-[var(--surface)] text-[var(--text-primary)] overflow-y-auto" style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>
+      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-amber-500/[0.03] rounded-full blur-[120px] pointer-events-none" />
 
       {/* NAV */}
-      <nav className="sticky top-0 z-50 bg-slate-900/60 backdrop-blur-2xl border-b border-white/[0.06]">
+      <nav className="sticky top-0 z-50 bg-[var(--nav-bg)] backdrop-blur-2xl border-b border-[var(--nav-border)]">
         <div className="max-w-[1600px] mx-auto px-6 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-amber-500/15 flex items-center justify-center"><Flame size={18} className="text-amber-400" /></div>
-            <span className="text-base font-bold text-white tracking-tight">Revenue Command Center</span>
-            <span className="text-xs text-slate-500 ml-2 hidden sm:inline">Smokeless Division</span>
+            <span className="text-base font-bold text-[var(--text-primary)] tracking-tight">Revenue Command Center</span>
+            <span className="text-xs text-[var(--text-tertiary)] ml-2 hidden sm:inline">Smokeless Division</span>
           </div>
-          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center text-xs font-bold text-white shadow-lg shadow-amber-500/20">VP</div>
+          <div className="flex items-center gap-3">
+            <button onClick={toggleTheme} className="w-9 h-9 rounded-lg flex items-center justify-center text-[var(--toggle-text)] hover:bg-[var(--toggle-hover-bg)] transition-colors" aria-label="Toggle theme">
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.span key={theme} initial={{ opacity: 0, rotate: -90 }} animate={{ opacity: 1, rotate: 0 }} exit={{ opacity: 0, rotate: 90 }} transition={{ duration: 0.2 }}>
+                  {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+                </motion.span>
+              </AnimatePresence>
+            </button>
+            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center text-xs font-bold text-white shadow-lg shadow-amber-500/20">VP</div>
+          </div>
         </div>
       </nav>
 
       {/* FILTER BAR */}
-      <div className="sticky top-[57px] z-40 bg-slate-900/50 backdrop-blur-2xl border-b border-white/[0.04]">
+      <div className="sticky top-[57px] z-40 bg-[var(--nav-bg)] backdrop-blur-2xl border-b border-[var(--nav-border)]">
         <div className="max-w-[1600px] mx-auto px-6 py-3 flex items-end gap-6 flex-wrap">
           <div>
-            <div className="text-xs uppercase tracking-widest text-slate-400 mb-2 font-medium">Timeframe</div>
+            <div className="text-xs uppercase tracking-widest text-[var(--text-secondary)] mb-2 font-medium">Timeframe</div>
             <div className="flex gap-2">{TIMEFRAMES.map((t) => (
-              <button key={t} onClick={() => updateFilter("timeframe", t)} className={`px-4 py-2 text-xs rounded-md transition-all duration-300 ${filters.timeframe === t ? "bg-cyan-500/15 text-cyan-400 font-semibold ring-1 ring-cyan-500/30" : "bg-white/[0.05] text-white/40 font-medium hover:text-white/60 hover:bg-white/[0.08]"}`}>{t}</button>
+              <button key={t} onClick={() => updateFilter("timeframe", t)} className={`px-4 py-2 text-xs rounded-md transition-all duration-300 ${filters.timeframe === t ? "bg-[var(--filter-active-bg)] text-[var(--filter-active-text)] font-semibold ring-1 ring-cyan-500/30" : "bg-[var(--filter-inactive-bg)] text-[var(--filter-inactive-text)] font-medium hover:text-[var(--filter-hover-text)] hover:bg-[var(--filter-hover-bg)]"}`}>{t}</button>
             ))}</div>
           </div>
           <FilterDropdown label="Strength" options={STRENGTHS_OPTS} value={filters.nicotineStrength} onChange={(v) => updateFilter("nicotineStrength", v)} />
@@ -372,8 +403,8 @@ export default function Dashboard() {
           <FilterDropdown label="Category" options={CATEGORIES} value={filters.category} onChange={(v) => updateFilter("category", v)} />
           <AnimatePresence>{activePills.length > 0 && (
             <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }} className="flex items-center gap-2 pb-0.5">
-              {activePills.map((p) => (<button key={p.key} onClick={() => updateFilter(p.key, "All")} className="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium rounded-md bg-amber-500/15 text-amber-400 hover:bg-amber-500/25 transition-colors">{p.value} <X size={10} /></button>))}
-              <button onClick={clearFilters} className="text-xs text-slate-500 hover:text-white transition-colors ml-2 underline underline-offset-2">Clear all</button>
+              {activePills.map((p) => (<button key={p.key} onClick={() => updateFilter(p.key, "All")} className="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium rounded-md bg-[var(--pill-bg)] text-[var(--pill-text)] hover:opacity-80 transition-colors">{p.value} <X size={10} /></button>))}
+              <button onClick={clearFilters} className="text-xs text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors ml-2 underline underline-offset-2">Clear all</button>
             </motion.div>
           )}</AnimatePresence>
         </div>
@@ -386,8 +417,8 @@ export default function Dashboard() {
         <motion.div variants={fadeUp}>
           <div className={`${sc.bg} ${sc.border} border rounded-lg px-4 py-3 flex items-center gap-3`}>
             <Pulse color={sc.dot} />
-            <span className="text-xs font-bold uppercase tracking-wider text-white">Overall Status: {statusSummary.level}</span>
-            <span className="text-sm text-slate-300 ml-2">{statusSummary.message}</span>
+            <span className={`text-xs font-bold uppercase tracking-wider text-[var(--status-label)]`}>Overall Status: {statusSummary.level}</span>
+            <span className="text-sm text-[var(--text-secondary)] ml-2">{statusSummary.message}</span>
           </div>
         </motion.div>
 
@@ -411,7 +442,7 @@ export default function Dashboard() {
                         <Icon size={18} style={{ color: kpi.color }} />
                       </div>
                       <div>
-                        <div className="text-xs uppercase tracking-wider text-slate-400 font-medium">{kpi.label}</div>
+                        <div className="text-xs uppercase tracking-wider text-[var(--text-secondary)] font-medium">{kpi.label}</div>
                         {kpi.alert && <div className="flex items-center gap-2 mt-0.5"><Pulse color="bg-rose-500" /><span className="text-xs text-rose-400 font-medium uppercase tracking-wider">High</span></div>}
                       </div>
                     </div>
@@ -440,9 +471,9 @@ export default function Dashboard() {
                     <defs>
                       <linearGradient id="gShip" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor={COLORS.amber} stopOpacity={0.6} /><stop offset="100%" stopColor={COLORS.amber} stopOpacity={0.1} /></linearGradient>
                     </defs>
-                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
-                    <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: "rgba(255,255,255,0.35)", fontSize: 10 }} interval={Math.max(0, Math.floor(pipelineData.length / 8))} />
-                    <YAxis axisLine={false} tickLine={false} tick={{ fill: "rgba(255,255,255,0.35)", fontSize: 11 }} tickFormatter={(v) => formatK(v)} />
+                    <CartesianGrid strokeDasharray="3 3" stroke="var(--grid-stroke)" />
+                    <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: "var(--text-tertiary)", fontSize: 10 }} interval={Math.max(0, Math.floor(pipelineData.length / 8))} />
+                    <YAxis axisLine={false} tickLine={false} tick={{ fill: "var(--text-tertiary)", fontSize: 11 }} tickFormatter={(v) => formatK(v)} />
                     <Tooltip content={<DarkTooltip formatter={(v) => formatK(v)} />} />
                     <Bar dataKey="shipments" name="Shipments" fill="url(#gShip)" radius={[3, 3, 0, 0]} barSize={12} animationDuration={600} />
                     <Line type="monotone" dataKey="offtake" name="Offtake" stroke={COLORS.cyan} strokeWidth={2.5} dot={false} animationDuration={600} />
@@ -465,9 +496,9 @@ export default function Dashboard() {
                           <linearGradient key={cat} id={`gc-${cat}`} x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor={color} stopOpacity={0.25} /><stop offset="100%" stopColor={color} stopOpacity={0} /></linearGradient>
                         ))}
                       </defs>
-                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
-                      <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fill: "rgba(255,255,255,0.35)", fontSize: 11 }} />
-                      <YAxis axisLine={false} tickLine={false} tick={{ fill: "rgba(255,255,255,0.35)", fontSize: 11 }} tickFormatter={(v) => formatK(v)} />
+                      <CartesianGrid strokeDasharray="3 3" stroke="var(--grid-stroke)" />
+                      <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fill: "var(--text-tertiary)", fontSize: 11 }} />
+                      <YAxis axisLine={false} tickLine={false} tick={{ fill: "var(--text-tertiary)", fontSize: 11 }} tickFormatter={(v) => formatK(v)} />
                       <Tooltip content={<DarkTooltip formatter={(v) => formatK(v)} />} />
                       {["Dip", "Snus", "Pouch"].map((cat) => {
                         const dimmed = filters.category !== "All" && filters.category !== cat;
@@ -476,9 +507,9 @@ export default function Dashboard() {
                     </AreaChart>
                   </ResponsiveContainer>
                   <div className="flex items-center gap-4 mt-2 ml-1">{Object.entries(CAT_COLORS).map(([cat, color]) => (
-                    <button key={cat} onClick={() => updateFilter("category", cat)} className={`flex items-center gap-2 px-2 py-1 rounded-lg transition-all ${filters.category === cat ? "bg-white/[0.06] ring-1 ring-white/10" : "hover:bg-white/[0.03]"}`}>
+                    <button key={cat} onClick={() => updateFilter("category", cat)} className={`flex items-center gap-2 px-2 py-1 rounded-lg transition-all ${filters.category === cat ? "bg-[var(--legend-active-bg)] ring-1 ring-[var(--legend-active-ring)]" : "hover:bg-[var(--legend-hover-bg)]"}`}>
                       <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: color, opacity: filters.category !== "All" && filters.category !== cat ? 0.3 : 1 }} />
-                      <span className={`text-xs ${filters.category !== "All" && filters.category !== cat ? "text-slate-600" : "text-slate-400"}`}>{cat}</span>
+                      <span className={`text-xs ${filters.category !== "All" && filters.category !== cat ? "text-[var(--legend-dimmed-text)]" : "text-[var(--text-secondary)]"}`}>{cat}</span>
                     </button>
                   ))}</div>
                 </>
@@ -499,9 +530,9 @@ export default function Dashboard() {
                     <defs>{flavorData.map((f) => (
                       <linearGradient key={f.key} id={`gfl-${f.key}`} x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stopColor={FLAVOR_COLORS[f.key] || COLORS.slate} stopOpacity={0.9} /><stop offset="100%" stopColor={FLAVOR_COLORS[f.key] || COLORS.slate} stopOpacity={0.35} /></linearGradient>
                     ))}</defs>
-                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" horizontal={false} />
-                    <XAxis type="number" axisLine={false} tickLine={false} tick={{ fill: "rgba(255,255,255,0.35)", fontSize: 11 }} tickFormatter={(v) => formatK(v)} />
-                    <YAxis type="category" dataKey="key" axisLine={false} tickLine={false} tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 12, fontWeight: 500 }} width={100} />
+                    <CartesianGrid strokeDasharray="3 3" stroke="var(--grid-stroke)" horizontal={false} />
+                    <XAxis type="number" axisLine={false} tickLine={false} tick={{ fill: "var(--text-tertiary)", fontSize: 11 }} tickFormatter={(v) => formatK(v)} />
+                    <YAxis type="category" dataKey="key" axisLine={false} tickLine={false} tick={{ fill: "var(--text-secondary)", fontSize: 12, fontWeight: 500 }} width={100} />
                     <Tooltip content={<DarkTooltip formatter={(v) => formatK(v)} />} cursor={false} />
                     <Bar dataKey="value" name="Offtake" radius={[0, 8, 8, 0]} onClick={(d) => updateFilter("flavor", d.key)} style={{ cursor: "pointer" }} animationDuration={600}>
                       {flavorData.map((f) => {
@@ -522,19 +553,19 @@ export default function Dashboard() {
               {isLoading ? <Skeleton height={320} /> : isEmpty ? <EmptyState filters={filters} /> : (
                 <ResponsiveContainer width="100%" height={320}>
                   <ScatterChart>
-                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
-                    <XAxis type="number" dataKey="price" name="Avg Price" axisLine={false} tickLine={false} tick={{ fill: "rgba(255,255,255,0.35)", fontSize: 11 }} tickFormatter={(v) => `$${v.toFixed(2)}`} domain={["auto", "auto"]} />
-                    <YAxis type="number" dataKey="volumeShare" name="Vol Share" axisLine={false} tickLine={false} tick={{ fill: "rgba(255,255,255,0.35)", fontSize: 11 }} tickFormatter={(v) => `${v}%`} />
+                    <CartesianGrid strokeDasharray="3 3" stroke="var(--grid-stroke)" />
+                    <XAxis type="number" dataKey="price" name="Avg Price" axisLine={false} tickLine={false} tick={{ fill: "var(--text-tertiary)", fontSize: 11 }} tickFormatter={(v) => `$${v.toFixed(2)}`} domain={["auto", "auto"]} />
+                    <YAxis type="number" dataKey="volumeShare" name="Vol Share" axisLine={false} tickLine={false} tick={{ fill: "var(--text-tertiary)", fontSize: 11 }} tickFormatter={(v) => `${v}%`} />
                     <ZAxis type="number" dataKey="volume" range={[40, 500]} />
                     <Tooltip content={({ active, payload }) => {
                       if (!active || !payload?.length) return null;
                       const d = payload[0]?.payload;
                       return (
-                        <div className="bg-slate-800/95 backdrop-blur-md border border-white/10 rounded-lg px-4 py-3 shadow-2xl">
-                          <p className="text-sm font-bold text-white mb-1">{d.name}</p>
-                          <p className="text-xs text-slate-400">Avg Price: <span className="text-white">${d.price}</span></p>
-                          <p className="text-xs text-slate-400">Volume Share: <span className="text-white">{d.volumeShare}%</span></p>
-                          <p className="text-xs text-slate-400">Avg OOS: <span className={d.avgOos > 7 ? "text-rose-400" : "text-white"}>{d.avgOos}%</span></p>
+                        <div className="bg-[var(--tooltip-bg)] backdrop-blur-md border border-[var(--tooltip-border)] rounded-lg px-4 py-3 shadow-2xl">
+                          <p className="text-sm font-bold text-[var(--text-primary)] mb-1">{d.name}</p>
+                          <p className="text-xs text-[var(--text-secondary)]">Avg Price: <span className="text-[var(--text-primary)]">${d.price}</span></p>
+                          <p className="text-xs text-[var(--text-secondary)]">Volume Share: <span className="text-[var(--text-primary)]">{d.volumeShare}%</span></p>
+                          <p className="text-xs text-[var(--text-secondary)]">Avg OOS: <span className={d.avgOos > 7 ? "text-rose-400" : "text-[var(--text-primary)]"}>{d.avgOos}%</span></p>
                           {d.sensitive && <p className="text-xs text-amber-400 font-semibold mt-1">⚠ Price Sensitive</p>}
                         </div>
                       );
@@ -562,12 +593,12 @@ export default function Dashboard() {
                   const gapColor = getHealthColor(r.gap);
                   const lowStock = r.daysOnHand < 10;
                   return (
-                    <button key={r.region} onClick={() => updateFilter("region", r.region)} className={`relative text-left rounded-lg p-4 border overflow-hidden transition-all duration-300 ${filters.region === r.region ? "border-amber-500/40 ring-1 ring-amber-500/20" : lowStock ? "border-amber-500/25" : "border-white/[0.06] hover:border-white/15"}`}>
+                    <button key={r.region} onClick={() => updateFilter("region", r.region)} className={`relative text-left rounded-lg p-4 border overflow-hidden transition-all duration-300 ${filters.region === r.region ? "border-amber-500/40 ring-1 ring-amber-500/20" : lowStock ? "border-amber-500/25" : "border-[var(--card-border)] hover:border-[var(--filter-hover-text)]"}`}>
                       <div className="absolute inset-0 rounded-lg" style={{ background: `linear-gradient(135deg, ${lowStock ? "rgba(245,158,11,0.08)" : "rgba(6,182,212,0.04)"} 0%, transparent 100%)` }} />
                       <div className="relative">
-                        <div className="text-xs text-slate-400 font-medium mb-1">{r.region}</div>
-                        <div className="text-xl font-bold text-white">{formatK(r.inventory)}</div>
-                        <div className="text-xs text-slate-500 mt-1">{r.daysOnHand} days on hand</div>
+                        <div className="text-xs text-[var(--text-secondary)] font-medium mb-1">{r.region}</div>
+                        <div className="text-xl font-bold text-[var(--text-primary)]">{formatK(r.inventory)}</div>
+                        <div className="text-xs text-[var(--text-tertiary)] mt-1">{r.daysOnHand} days on hand</div>
                         <div className="flex items-center gap-2 mt-2">
                           <div className={`text-xs font-semibold px-2 py-0.5 rounded-md ${gapColor === "emerald" ? "bg-emerald-500/10 text-emerald-400" : gapColor === "amber" ? "bg-amber-500/10 text-amber-400" : "bg-rose-500/10 text-rose-400"}`}>
                             Gap: {r.gap > 0 ? "+" : ""}{r.gap.toFixed(1)}%
@@ -575,7 +606,7 @@ export default function Dashboard() {
                           {r.avgOos > 7 && <span className="text-xs text-rose-400 font-semibold flex items-center gap-1"><Pulse color="bg-rose-500" /> OOS</span>}
                           {lowStock && <span className="text-xs text-amber-400 font-semibold">Low Stock</span>}
                         </div>
-                        <div className="mt-3 h-1 rounded-full bg-white/[0.06] overflow-hidden">
+                        <div className="mt-3 h-1 rounded-full bg-[var(--progress-track)] overflow-hidden">
                           <div className="h-full rounded-full" style={{ width: `${r.intensity * 100}%`, background: lowStock ? `linear-gradient(90deg, ${COLORS.amber}, ${COLORS.amber}66)` : `linear-gradient(90deg, ${COLORS.cyan}, ${COLORS.blue}88)` }} />
                         </div>
                       </div>
@@ -595,8 +626,8 @@ export default function Dashboard() {
             return (
               <motion.div key={i} variants={fadeUp} whileHover={{ y: -4 }} transition={{ type: "spring", stiffness: 300, damping: 20 }}>
                 <GlassCard className={`border-t-2 ${ins.accent} hover:border-white/15 transition-all duration-300`}>
-                  <div className="flex items-center gap-3 mb-3"><div className={`w-10 h-10 rounded-xl ${ins.iconBg} flex items-center justify-center`}><Icon size={18} className={ins.iconColor} /></div><h3 className="text-sm font-bold text-white">{ins.title}</h3></div>
-                  <p className="text-sm text-slate-400 leading-relaxed">{ins.text}</p>
+                  <div className="flex items-center gap-3 mb-3"><div className={`w-10 h-10 rounded-xl ${ins.iconBg} flex items-center justify-center`}><Icon size={18} className={ins.iconColor} /></div><h3 className="text-sm font-bold text-[var(--text-primary)]">{ins.title}</h3></div>
+                  <p className="text-sm text-[var(--text-secondary)] leading-relaxed">{ins.text}</p>
                 </GlassCard>
               </motion.div>
             );
