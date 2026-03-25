@@ -263,8 +263,8 @@ const Pulse = ({ color = "bg-emerald-500" }) => (
 const DarkTooltip = ({ active, payload, label, formatter }) => {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-slate-800/95 backdrop-blur-md border border-white/10 rounded-xl px-4 py-3 shadow-2xl">
-      <p className="text-[11px] uppercase tracking-wider text-white/40 mb-1.5">{label}</p>
+    <div className="bg-slate-800/95 backdrop-blur-md border border-white/10 rounded-lg px-4 py-3 shadow-2xl">
+      <p className="text-xs uppercase tracking-wider text-white/50 mb-2">{label}</p>
       {payload.map((e, i) => (
         <p key={i} className="text-sm font-semibold" style={{ color: e.color || e.stroke }}>
           {e.name}: {formatter ? formatter(e.value, e.name) : e.value.toLocaleString()}
@@ -275,26 +275,26 @@ const DarkTooltip = ({ active, payload, label, formatter }) => {
 };
 
 const GlassCard = ({ children, className = "" }) => (
-  <div className={`bg-[rgba(30,41,59,0.7)] backdrop-blur-md border border-white/10 rounded-2xl p-6 ${className}`}>{children}</div>
+  <div className={`bg-[rgba(30,41,59,0.7)] backdrop-blur-md border border-white/10 rounded-lg p-6 ${className}`}>{children}</div>
 );
 
 const SectionTitle = ({ children, subtitle }) => (
-  <div className="mb-4"><h2 className="text-lg font-semibold text-white">{children}</h2>{subtitle && <p className="text-xs text-slate-400 mt-0.5">{subtitle}</p>}</div>
+  <div className="mb-4"><h2 className="text-xl font-semibold text-white">{children}</h2>{subtitle && <p className="text-xs text-slate-400 mt-1">{subtitle}</p>}</div>
 );
 
 const ChartMeta = ({ source, refreshed }) => (
   <div className="flex items-center gap-3 mt-4 pt-3 border-t border-slate-700/40">
-    <span className="text-[10px] text-slate-600">Source: {source}</span>
-    <span className="text-[10px] text-slate-700">|</span>
-    <span className="text-[10px] text-slate-600">Last Refreshed: <span className="text-amber-500/70">{refreshed}</span></span>
+    <span className="text-xs text-slate-400">Source: {source}</span>
+    <span className="text-xs text-slate-600">|</span>
+    <span className="text-xs text-slate-400">Last Refreshed: <span className="text-amber-400/80">{refreshed}</span></span>
   </div>
 );
 
 const FilterDropdown = ({ label, options, value, onChange }) => (
   <div>
-    <div className="text-[10px] uppercase tracking-widest text-white/30 mb-1.5 font-medium">{label}</div>
+    <div className="text-xs uppercase tracking-widest text-slate-400 mb-2 font-medium">{label}</div>
     <div className="relative">
-      <select value={value} onChange={(e) => onChange(e.target.value)} className="bg-white/[0.05] border border-white/[0.08] rounded-xl text-sm text-slate-300 pl-3 pr-8 py-2 appearance-none cursor-pointer hover:border-white/20 transition-colors focus:outline-none focus:ring-1 focus:ring-amber-500/30">
+      <select value={value} onChange={(e) => onChange(e.target.value)} className="bg-white/[0.05] border border-white/[0.08] rounded-md text-sm text-slate-300 pl-3 pr-8 py-2 appearance-none cursor-pointer hover:border-white/20 transition-colors focus:outline-none focus:ring-1 focus:ring-cyan-500/30">
         {options.map((o) => <option key={o} value={o}>{o}</option>)}
       </select>
       <ChevronDown size={14} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-white/30 pointer-events-none" />
@@ -305,13 +305,13 @@ const FilterDropdown = ({ label, options, value, onChange }) => (
 const Skeleton = ({ height = 300, rows = 0 }) => (
   <div className="animate-pulse space-y-3" style={{ minHeight: height }}>
     <div className="h-4 w-1/3 bg-white/[0.06] rounded" /><div className="h-3 w-1/5 bg-white/[0.04] rounded" />
-    {rows > 0 ? <div className="space-y-2 pt-2">{Array.from({ length: rows }, (_, i) => <div key={i} className="h-10 bg-white/[0.03] rounded-xl" style={{ opacity: 1 - i * 0.12 }} />)}</div> : <div className="flex-1 bg-white/[0.03] rounded-xl" style={{ height: height - 40 }} />}
+    {rows > 0 ? <div className="space-y-2 pt-2">{Array.from({ length: rows }, (_, i) => <div key={i} className="h-10 bg-white/[0.03] rounded-lg" style={{ opacity: 1 - i * 0.12 }} />)}</div> : <div className="flex-1 bg-white/[0.03] rounded-xl" style={{ height: height - 40 }} />}
   </div>
 );
 
 const EmptyState = ({ filters }) => {
   const active = Object.entries(filters).filter(([k, v]) => v !== "All" && k !== "timeframe").map(([, v]) => v);
-  return (<div className="flex flex-col items-center justify-center py-16 text-center"><div className="w-14 h-14 rounded-2xl bg-slate-800/50 flex items-center justify-center mb-4"><SearchX size={24} className="text-slate-600" /></div><p className="text-sm font-medium text-slate-400 mb-1">No matching records</p><p className="text-xs text-slate-600 max-w-[260px]">{active.length > 0 ? `No data for ${active.join(" + ")}.` : "Adjust your filters."}</p></div>);
+  return (<div className="flex flex-col items-center justify-center py-16 text-center"><div className="w-14 h-14 rounded-lg bg-slate-800/50 flex items-center justify-center mb-4"><SearchX size={24} className="text-slate-600" /></div><p className="text-sm font-medium text-slate-400 mb-1">No matching records</p><p className="text-xs text-slate-600 max-w-[260px]">{active.length > 0 ? `No data for ${active.join(" + ")}.` : "Adjust your filters."}</p></div>);
 };
 
 const INSIGHTS = [
@@ -351,7 +351,7 @@ export default function Dashboard() {
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-amber-500/15 flex items-center justify-center"><Flame size={18} className="text-amber-400" /></div>
             <span className="text-base font-bold text-white tracking-tight">Revenue Command Center</span>
-            <span className="text-[10px] text-slate-500 ml-1 hidden sm:inline">Smokeless Division</span>
+            <span className="text-xs text-slate-500 ml-2 hidden sm:inline">Smokeless Division</span>
           </div>
           <div className="w-9 h-9 rounded-full bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center text-xs font-bold text-white shadow-lg shadow-amber-500/20">VP</div>
         </div>
@@ -361,9 +361,9 @@ export default function Dashboard() {
       <div className="sticky top-[57px] z-40 bg-slate-900/50 backdrop-blur-2xl border-b border-white/[0.04]">
         <div className="max-w-[1600px] mx-auto px-6 py-3 flex items-end gap-6 flex-wrap">
           <div>
-            <div className="text-[10px] uppercase tracking-widest text-white/30 mb-1.5 font-medium">Timeframe</div>
-            <div className="flex gap-1.5">{TIMEFRAMES.map((t) => (
-              <button key={t} onClick={() => updateFilter("timeframe", t)} className={`px-3.5 py-1.5 text-xs font-medium rounded-full transition-all duration-300 ${filters.timeframe === t ? "bg-amber-500/20 text-amber-400 ring-1 ring-amber-500/30 shadow-lg shadow-amber-500/10" : "bg-white/[0.05] text-white/40 hover:text-white/60 hover:bg-white/[0.08]"}`}>{t}</button>
+            <div className="text-xs uppercase tracking-widest text-slate-400 mb-2 font-medium">Timeframe</div>
+            <div className="flex gap-2">{TIMEFRAMES.map((t) => (
+              <button key={t} onClick={() => updateFilter("timeframe", t)} className={`px-4 py-2 text-xs rounded-md transition-all duration-300 ${filters.timeframe === t ? "bg-cyan-500/15 text-cyan-400 font-semibold ring-1 ring-cyan-500/30" : "bg-white/[0.05] text-white/40 font-medium hover:text-white/60 hover:bg-white/[0.08]"}`}>{t}</button>
             ))}</div>
           </div>
           <FilterDropdown label="Strength" options={STRENGTHS_OPTS} value={filters.nicotineStrength} onChange={(v) => updateFilter("nicotineStrength", v)} />
@@ -372,8 +372,8 @@ export default function Dashboard() {
           <FilterDropdown label="Category" options={CATEGORIES} value={filters.category} onChange={(v) => updateFilter("category", v)} />
           <AnimatePresence>{activePills.length > 0 && (
             <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }} className="flex items-center gap-2 pb-0.5">
-              {activePills.map((p) => (<button key={p.key} onClick={() => updateFilter(p.key, "All")} className="inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-medium rounded-full bg-amber-500/15 text-amber-400 hover:bg-amber-500/25 transition-colors">{p.value} <X size={10} /></button>))}
-              <button onClick={clearFilters} className="text-[11px] text-slate-500 hover:text-white transition-colors ml-1 underline underline-offset-2">Clear all</button>
+              {activePills.map((p) => (<button key={p.key} onClick={() => updateFilter(p.key, "All")} className="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium rounded-md bg-amber-500/15 text-amber-400 hover:bg-amber-500/25 transition-colors">{p.value} <X size={10} /></button>))}
+              <button onClick={clearFilters} className="text-xs text-slate-500 hover:text-white transition-colors ml-2 underline underline-offset-2">Clear all</button>
             </motion.div>
           )}</AnimatePresence>
         </div>
@@ -384,10 +384,10 @@ export default function Dashboard() {
 
         {/* STATUS BANNER */}
         <motion.div variants={fadeUp}>
-          <div className={`${sc.bg} ${sc.border} border rounded-2xl px-5 py-3 flex items-center gap-3`}>
+          <div className={`${sc.bg} ${sc.border} border rounded-lg px-4 py-3 flex items-center gap-3`}>
             <Pulse color={sc.dot} />
-            <span className={`text-xs font-bold uppercase tracking-wider ${sc.text}`}>Overall Status: {statusSummary.level}</span>
-            <span className="text-sm text-slate-300 ml-1">{statusSummary.message}</span>
+            <span className="text-xs font-bold uppercase tracking-wider text-white">Overall Status: {statusSummary.level}</span>
+            <span className="text-sm text-slate-300 ml-2">{statusSummary.message}</span>
           </div>
         </motion.div>
 
@@ -406,20 +406,20 @@ export default function Dashboard() {
                 <GlassCard className={`relative overflow-hidden group hover:border-amber-500/20 transition-all duration-300 ${alertStyle}`}>
                   <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r" style={{ backgroundImage: `linear-gradient(to right, ${kpi.color}99, ${kpi.color}33, transparent)` }} />
                   <div className="flex items-start justify-between mb-3">
-                    <div className="flex items-center gap-2.5">
+                    <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: `${kpi.color}18` }}>
                         <Icon size={18} style={{ color: kpi.color }} />
                       </div>
                       <div>
-                        <div className="text-[11px] uppercase tracking-[0.15em] text-slate-400 font-medium">{kpi.label}</div>
-                        {kpi.alert && <div className="flex items-center gap-1.5 mt-0.5"><Pulse color="bg-rose-500" /><span className="text-[9px] text-rose-400/80 font-medium uppercase tracking-wider">High</span></div>}
+                        <div className="text-xs uppercase tracking-wider text-slate-400 font-medium">{kpi.label}</div>
+                        {kpi.alert && <div className="flex items-center gap-2 mt-0.5"><Pulse color="bg-rose-500" /><span className="text-xs text-rose-400 font-medium uppercase tracking-wider">High</span></div>}
                       </div>
                     </div>
                     <Sparkline data={kpi.spark} color={kpi.color} />
                   </div>
                   <div className="text-3xl font-bold tracking-tight" style={kpi.alert ? { color: COLORS.rose } : {}}>{kpi.value}</div>
                   {kpi.badge && (
-                    <div className={`inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-0.5 rounded-full mt-2 ${kpi.badge.color === "emerald" ? "bg-emerald-500/10 text-emerald-400" : kpi.badge.color === "amber" ? "bg-amber-500/10 text-amber-400" : "bg-rose-500/10 text-rose-400"}`}>
+                    <div className={`inline-flex items-center gap-1 text-xs font-semibold px-3 py-0.5 rounded-full mt-2 ${kpi.badge.color === "emerald" ? "bg-emerald-500/10 text-emerald-400" : kpi.badge.color === "amber" ? "bg-amber-500/10 text-amber-400" : "bg-rose-500/10 text-rose-400"}`}>
                       {kpi.badge.text}
                     </div>
                   )}
@@ -530,12 +530,12 @@ export default function Dashboard() {
                       if (!active || !payload?.length) return null;
                       const d = payload[0]?.payload;
                       return (
-                        <div className="bg-slate-800/95 backdrop-blur-md border border-white/10 rounded-xl px-4 py-3 shadow-2xl">
+                        <div className="bg-slate-800/95 backdrop-blur-md border border-white/10 rounded-lg px-4 py-3 shadow-2xl">
                           <p className="text-sm font-bold text-white mb-1">{d.name}</p>
                           <p className="text-xs text-slate-400">Avg Price: <span className="text-white">${d.price}</span></p>
                           <p className="text-xs text-slate-400">Volume Share: <span className="text-white">{d.volumeShare}%</span></p>
                           <p className="text-xs text-slate-400">Avg OOS: <span className={d.avgOos > 7 ? "text-rose-400" : "text-white"}>{d.avgOos}%</span></p>
-                          {d.sensitive && <p className="text-[10px] text-amber-400 font-semibold mt-1">⚠ Price Sensitive</p>}
+                          {d.sensitive && <p className="text-xs text-amber-400 font-semibold mt-1">⚠ Price Sensitive</p>}
                         </div>
                       );
                     }} />
@@ -562,20 +562,20 @@ export default function Dashboard() {
                   const gapColor = getHealthColor(r.gap);
                   const lowStock = r.daysOnHand < 10;
                   return (
-                    <button key={r.region} onClick={() => updateFilter("region", r.region)} className={`relative text-left rounded-xl p-4 border overflow-hidden transition-all duration-300 ${filters.region === r.region ? "border-amber-500/40 ring-1 ring-amber-500/20" : lowStock ? "border-amber-500/25" : "border-white/[0.06] hover:border-white/15"}`}>
-                      <div className="absolute inset-0 rounded-xl" style={{ background: `linear-gradient(135deg, ${lowStock ? "rgba(245,158,11,0.08)" : "rgba(6,182,212,0.04)"} 0%, transparent 100%)` }} />
+                    <button key={r.region} onClick={() => updateFilter("region", r.region)} className={`relative text-left rounded-lg p-4 border overflow-hidden transition-all duration-300 ${filters.region === r.region ? "border-amber-500/40 ring-1 ring-amber-500/20" : lowStock ? "border-amber-500/25" : "border-white/[0.06] hover:border-white/15"}`}>
+                      <div className="absolute inset-0 rounded-lg" style={{ background: `linear-gradient(135deg, ${lowStock ? "rgba(245,158,11,0.08)" : "rgba(6,182,212,0.04)"} 0%, transparent 100%)` }} />
                       <div className="relative">
                         <div className="text-xs text-slate-400 font-medium mb-1">{r.region}</div>
                         <div className="text-xl font-bold text-white">{formatK(r.inventory)}</div>
-                        <div className="text-[10px] text-slate-500 mt-0.5">{r.daysOnHand} days on hand</div>
+                        <div className="text-xs text-slate-500 mt-1">{r.daysOnHand} days on hand</div>
                         <div className="flex items-center gap-2 mt-2">
-                          <div className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${gapColor === "emerald" ? "bg-emerald-500/10 text-emerald-400" : gapColor === "amber" ? "bg-amber-500/10 text-amber-400" : "bg-rose-500/10 text-rose-400"}`}>
+                          <div className={`text-xs font-semibold px-2 py-0.5 rounded-md ${gapColor === "emerald" ? "bg-emerald-500/10 text-emerald-400" : gapColor === "amber" ? "bg-amber-500/10 text-amber-400" : "bg-rose-500/10 text-rose-400"}`}>
                             Gap: {r.gap > 0 ? "+" : ""}{r.gap.toFixed(1)}%
                           </div>
-                          {r.avgOos > 7 && <span className="text-[10px] text-rose-400 font-semibold flex items-center gap-1"><Pulse color="bg-rose-500" /> OOS</span>}
-                          {lowStock && <span className="text-[10px] text-amber-400 font-semibold">Low Stock</span>}
+                          {r.avgOos > 7 && <span className="text-xs text-rose-400 font-semibold flex items-center gap-1"><Pulse color="bg-rose-500" /> OOS</span>}
+                          {lowStock && <span className="text-xs text-amber-400 font-semibold">Low Stock</span>}
                         </div>
-                        <div className="mt-2.5 h-1 rounded-full bg-white/[0.06] overflow-hidden">
+                        <div className="mt-3 h-1 rounded-full bg-white/[0.06] overflow-hidden">
                           <div className="h-full rounded-full" style={{ width: `${r.intensity * 100}%`, background: lowStock ? `linear-gradient(90deg, ${COLORS.amber}, ${COLORS.amber}66)` : `linear-gradient(90deg, ${COLORS.cyan}, ${COLORS.blue}88)` }} />
                         </div>
                       </div>
